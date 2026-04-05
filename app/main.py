@@ -65,6 +65,3 @@ def battle() -> dict:
         mordred.name: mordred.hp,
         red_knight.name: red_knight.hp,
     }
-
-
-print(battle())
