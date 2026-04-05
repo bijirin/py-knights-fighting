@@ -1,5 +1,5 @@
-from knight import Knight
-from equipment import Armour, Weapon, Potion
+from app.knight import Knight
+from app.equipment import Armour, Weapon, Potion
 
 
 def fight(first_knight: Knight, second_knight: Knight) -> None:
