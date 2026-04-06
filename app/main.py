@@ -137,5 +137,6 @@ def battle(knights_config: dict) -> dict:
     fight(knights["arthur"], knights["red_knight"])
 
     return {
-        knights[kn].name : knights[kn].hp for kn in knights
+        knights[kn_key].name : knights[kn_key].hp for kn_key in knights
     }
+    
