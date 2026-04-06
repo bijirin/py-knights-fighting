@@ -2,6 +2,94 @@ from app.knight import Knight
 from app.equipment import Armour, Weapon, Potion
 
 
+KNIGHTS = {
+    "lancelot": {
+        "name": "Lancelot",
+        "power": 35,
+        "hp": 100,
+        "armour": [],
+        "weapon": {
+            "name": "Metal Sword",
+            "power": 50,
+        },
+        "potion": None,
+    },
+    "arthur": {
+        "name": "Arthur",
+        "power": 45,
+        "hp": 75,
+        "armour": [
+            {
+                "part": "helmet",
+                "protection": 15,
+            },
+            {
+                "part": "breastplate",
+                "protection": 20,
+            },
+            {
+                "part": "boots",
+                "protection": 10,
+            }
+        ],
+        "weapon": {
+            "name": "Two-handed Sword",
+            "power": 55,
+        },
+        "potion": None,
+    },
+    "mordred": {
+        "name": "Mordred",
+        "power": 30,
+        "hp": 90,
+        "armour": [
+            {
+                "part": "breastplate",
+                "protection": 15,
+            },
+            {
+                "part": "boots",
+                "protection": 10,
+            }
+        ],
+        "weapon": {
+            "name": "Poisoned Sword",
+            "power": 60,
+        },
+        "potion": {
+            "name": "Berserk",
+            "effect": {
+                "power": +15,
+                "hp": -5,
+                "protection": +10,
+            }
+        }
+    },
+    "red_knight": {
+        "name": "Red Knight",
+        "power": 40,
+        "hp": 70,
+        "armour": [
+            {
+                "part": "breastplate",
+                "protection": 25,
+            }
+        ],
+        "weapon": {
+            "name": "Sword",
+            "power": 45
+        },
+        "potion": {
+            "name": "Blessing",
+            "effect": {
+                "hp": +10,
+                "power": +5,
+            }
+        }
+    }
+}
+
+
 def fight(first_knight: Knight, second_knight: Knight) -> None:
     first_knight.hp -= second_knight.power - first_knight.protection
     second_knight.hp -= first_knight.power - second_knight.protection
@@ -12,56 +100,41 @@ def fight(first_knight: Knight, second_knight: Knight) -> None:
         second_knight.hp = 0
 
 
-def battle() -> dict:
+def battle(knightsConfig) -> dict:
     # BATTLE PREPARATIONS:
 
-    # lancelot ----
+    knights = {}
 
-    lancelot = Knight("Lancelot", power=35, hp=100)
-    lancelot.equip_weapon(Weapon("Metal Sword", 50))
+    for kn in knightsConfig:
+        knights[kn] = Knight(
+            name=knightsConfig[kn]["name"],
+            power=knightsConfig[kn]["power"],
+            hp=knightsConfig[kn]["hp"],
+        )
 
-    # arthur ----
+        for a in knightsConfig[kn]["armour"]:
+            knights[kn].equip_armour(Armour(a["part"], a["protection"]))
 
-    arthur = Knight("Arthur", power=45, hp=75)
-    arthur.equip_armour(Armour("helmet", 15))
-    arthur.equip_armour(Armour("breastplate", 20))
-    arthur.equip_armour(Armour("boots", 10))
-    arthur.equip_weapon(Weapon("Two-handed Sword", 55))
+        knights[kn].equip_weapon(Weapon(
+            name=knightsConfig[kn]["weapon"]["name"],
+            power=knightsConfig[kn]["weapon"]["power"],
+        ))
 
-    # mordred ----
+        if knightsConfig[kn]["potion"] is not None:
+            knights[kn].drink_potion(Potion(
+                name=knightsConfig[kn]["potion"]["name"],
+                effect=knightsConfig[kn]["potion"]["effect"],
+            ))
 
-    mordred = Knight("Mordred", power=30, hp=90)
-    mordred.equip_armour(Armour("breastplate", 15))
-    mordred.equip_armour(Armour("boots", 10))
-    mordred.equip_weapon(Weapon("Poisoned Sword", 60))
-    mordred.drink_potion(Potion("Berserk", {
-        "power": +15,
-        "hp": -5,
-        "protection": +10
-    }))
-
-    # red_knight ----
-
-    red_knight = Knight("Red Knight", power=40, hp=70)
-    red_knight.equip_armour(Armour("breastplate", 25))
-    red_knight.equip_weapon(Weapon("Sword", 45))
-    red_knight.drink_potion(Potion("Blessing", {"hp": +10, "power": +5}))
-
+    # -------
     # BATTLE:
 
     # 1 Lancelot vs Mordred:
-
-    fight(lancelot, mordred)
+    fight(knights["lancelot"], knights["mordred"])
 
     # 2 Arthur vs Red Knight:
-
-    fight(arthur, red_knight)
-
-    # Return battle results:
+    fight(knights["arthur"], knights["red_knight"])
 
     return {
-        lancelot.name: lancelot.hp,
-        arthur.name: arthur.hp,
-        mordred.name: mordred.hp,
-        red_knight.name: red_knight.hp,
+        knights[kn].name : knights[kn].hp for kn in knights
     }
