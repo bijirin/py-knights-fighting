@@ -113,7 +113,8 @@ def battle(knights_config: dict) -> dict:
         )
 
         for arm_data in knights_config[kn_key]["armour"]:
-            knights[kn_key].equip_armour(Armour(arm_data["part"], arm_data["protection"]))
+            knights[kn_key].equip_armour(
+                Armour(arm_data["part"], arm_data["protection"]))
 
         knights[kn_key].equip_weapon(Weapon(
             name=knights_config[kn_key]["weapon"]["name"],
