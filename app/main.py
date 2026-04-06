@@ -139,4 +139,3 @@ def battle(knights_config: dict) -> dict:
     return {
         knights[kn_key].name : knights[kn_key].hp for kn_key in knights
     }
-    
