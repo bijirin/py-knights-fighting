@@ -100,30 +100,30 @@ def fight(first_knight: Knight, second_knight: Knight) -> None:
         second_knight.hp = 0
 
 
-def battle(knightsConfig) -> dict:
+def battle(knights_config: list) -> dict:
     # BATTLE PREPARATIONS:
 
     knights = {}
 
-    for kn in knightsConfig:
+    for kn in knights_config:
         knights[kn] = Knight(
-            name=knightsConfig[kn]["name"],
-            power=knightsConfig[kn]["power"],
-            hp=knightsConfig[kn]["hp"],
+            name=knights_config[kn]["name"],
+            power=knights_config[kn]["power"],
+            hp=knights_config[kn]["hp"],
         )
 
-        for a in knightsConfig[kn]["armour"]:
-            knights[kn].equip_armour(Armour(a["part"], a["protection"]))
+        for ar in knights_config[kn]["armour"]:
+            knights[kn].equip_armour(Armour(ar["part"], ar["protection"]))
 
         knights[kn].equip_weapon(Weapon(
-            name=knightsConfig[kn]["weapon"]["name"],
-            power=knightsConfig[kn]["weapon"]["power"],
+            name=knights_config[kn]["weapon"]["name"],
+            power=knights_config[kn]["weapon"]["power"],
         ))
 
-        if knightsConfig[kn]["potion"] is not None:
+        if knights_config[kn]["potion"] is not None:
             knights[kn].drink_potion(Potion(
-                name=knightsConfig[kn]["potion"]["name"],
-                effect=knightsConfig[kn]["potion"]["effect"],
+                name=knights_config[kn]["potion"]["name"],
+                effect=knights_config[kn]["potion"]["effect"],
             ))
 
     # -------
