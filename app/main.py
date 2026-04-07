@@ -1,5 +1,5 @@
-from app.knight import Knight
-from app.equipment import Armour, Weapon, Potion
+from .knight import Knight
+from .equipment import Armour, Weapon, Potion
 
 
 KNIGHTS = {

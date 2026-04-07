@@ -1,4 +1,4 @@
-from app.equipment import Armour, Weapon, Potion
+from .equipment import Armour, Weapon, Potion
 
 
 class Knight:
